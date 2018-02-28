@@ -1,3 +1,4 @@
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,6 +27,7 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterDtos Userdto)
         {
+            
             Userdto.Username = Userdto.Username.ToLower();
             if (await _authRepo.ExistingUser(Userdto.Username))
                 return BadRequest("Username is already taken");
