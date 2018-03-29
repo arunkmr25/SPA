@@ -18,7 +18,7 @@ namespace DatingApp.API
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+            WebHost.CreateDefaultBuilder(args).UseUrls("http://localhost:9999/")
                 .UseStartup<Startup>()
                 .Build();
     }

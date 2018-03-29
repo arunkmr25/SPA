@@ -1,22 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using connections.Model;
 
-namespace connections.Model
+namespace connections.DTO
 {
-     public class User
+    public class UserDTO
     {
-        public int Id { get; set; }
-
+         public int Id { get; set; }
+        
         public string Username { get; set; }
-
-        public byte[] PasswordHash { get; set; }
-
-        public byte[] PasswordSalt { get; set; }
 
         public string Gender { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public int Age { get; set; }
 
         public string knownAs { get; set; }
 
@@ -34,11 +31,10 @@ namespace connections.Model
 
         public string Country { get; set; }
 
-        public ICollection<Photo> Photos { get; set; }
+        public string PhotoUrl { get; set; }
+        
+        public ICollection<PhotoDTO> Photos { get; set; }
 
-        public User()
-        {
-            Photos = new Collection<Photo>();
-        }
+    
     }
 }
