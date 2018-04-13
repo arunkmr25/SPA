@@ -1,7 +1,7 @@
 using System;
-namespace connections.Model
+namespace connections.DTO
 {
-    public class Photo
+    public class PhotoForRetreival
     {
         public int Id { get; set; } 
 
@@ -14,9 +14,5 @@ namespace connections.Model
         public bool IsMain { get; set; }
 
         public string PublicId { get; set; }
-
-        public User User { get; set; }
-
-        public int  UserId { get; set; }
     }
 }

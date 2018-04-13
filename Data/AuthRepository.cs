@@ -22,7 +22,7 @@ namespace connections.Data
 
         public async Task<User> Login(string userName, string password)
         {
-            var userContext= await _context.Users.FirstOrDefaultAsync(x=>x.Username == userName);
+            var userContext= await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(x=>x.Username == userName);
 
             if(userContext==null)
             return null;

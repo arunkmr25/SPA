@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace connections.Model
+namespace connections.Helpers
 {
     public static class Extension{
         public static void ApplicationError(this HttpResponse response, string message){

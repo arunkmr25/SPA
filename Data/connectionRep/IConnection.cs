@@ -11,5 +11,9 @@ namespace connections.Data.connectionRep
          Task<bool> SaveAll();
          Task<IEnumerable<User>> GetUsers();
          Task<User> GetUser(int id);
+
+         Task<Photo> GetSinglePhotoDetails( int id);
+         Task<Photo> getMainPhoto( int userId);
+         
     }
 }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using connections.Data;
 using connections.Data.connectionRep;
+using connections.Helpers;
 using connections.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,7 @@ namespace DatingApp.API
             services.AddScoped <IConnection, connection>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddTransient<UserFeedDummyData>();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(Options =>
             {
                 Options.TokenValidationParameters = new TokenValidationParameters
