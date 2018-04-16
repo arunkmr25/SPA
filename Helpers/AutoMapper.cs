@@ -35,6 +35,8 @@ namespace connections.Helpers
             CreateMap<PhotoForCreationDto,Photo>();
 
             CreateMap<Photo,PhotoForRetreival>();
+            
+            CreateMap<RegisterDtos,User>();
         }
     }
 }

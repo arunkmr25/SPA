@@ -35,12 +35,10 @@ namespace connections.Controllers
             if (await _authRepo.ExistingUser(Userdto.Username))
                 return BadRequest("Username is already taken");
 
-            var UserModel = new User()
-            {
-                Username = Userdto.Username
-            };
+            var UserModel = _mapper.Map<User>(Userdto);
             var createUser = await _authRepo.Register(UserModel, Userdto.Password);
-            return StatusCode(201);
+            var usertoreturn = _mapper.Map<UserDTO>(createUser);
+            return CreatedAtRoute("getUser", new {controller = "User", id = createUser.Id},usertoreturn);
         }
 
         [HttpPost("login")]
