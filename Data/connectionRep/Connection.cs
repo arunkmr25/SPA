@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using connections.Helpers;
 using connections.Model;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,10 +43,27 @@ namespace connections.Data.connectionRep
             return users;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = await _context.Users.Include(p => p.Photos).ToListAsync();
-            return users;
+            var users =  _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+            users = users.Where(u => u.Id != userParams.UserId).Where(u => u.Gender == userParams.Gender);
+            if(userParams.MinAge != 18 || userParams.MaxAge !=99 ){
+                users = users.Where(u => u.DateOfBirth.CalculateAge() >= userParams.MinAge 
+                && u.DateOfBirth.CalculateAge() <= userParams.MaxAge);
+            }
+             if(!string.IsNullOrEmpty(userParams.OrderBy)){
+               switch(userParams.OrderBy)
+               {
+                   case "age" :
+                   users = users.OrderByDescending(u => u.DateOfBirth.CalculateAge());
+                   break;
+
+                   default:
+                   users = users.OrderByDescending(u => u.LastActive);
+                   break;
+               }
+            }
+            return await PagedList<User>.createPagedList( users, userParams.pageSize , userParams.PageNumber);
         }
 
         public async Task<bool> SaveAll()

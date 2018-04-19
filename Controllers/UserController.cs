@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using connections.Data.connectionRep;
 using connections.DTO;
+using connections.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace DatingApp.API.Controllers
 {
@@ -23,10 +26,17 @@ namespace DatingApp.API.Controllers
 
         }
         [HttpGet]
-        public async Task<ActionResult> GetAllUsers()
+        public async Task<ActionResult> GetAllUsers(UserParams userParam)
         {
-            var users = await _connection.GetUsers();
+            var currentUser= int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var repositoryUser = await _connection.GetUser(currentUser);
+            userParam.UserId = currentUser;
+            if(string.IsNullOrEmpty(userParam.Gender)){
+                userParam.Gender = repositoryUser.Gender == "male" ? "female" : "male"; 
+            }
+            var users = await _connection.GetUsers(userParam);
             var clientresponse = _mapper.Map<IEnumerable<UserListDTO>>(users);
+            Response.AddPagination(users.CurrentPage , users.PageSize , users.TotalPages , users.TotalCount);
             return Ok(clientresponse);
         }
         [HttpGet("{id}", Name="getUser")]
